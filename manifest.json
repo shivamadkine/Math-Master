@@ -1,0 +1,9 @@
+{
+  "name": "Math Master",
+  "short_name": "Math Master",
+  "description": "A simple mathematics learning app for squares, cubes and Pythagorean triplets.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f2f7ff",
+  "theme_color": "#3155d9"
+}
