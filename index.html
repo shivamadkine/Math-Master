@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Math Master</title>
+
+<style>
+body {
+  font-family: Arial;
+  text-align: center;
+  background: #f2f7ff;
+  margin: 0;
+}
+
+header {
+  background: #3155d9;
+  color: white;
+  padding: 20px;
+}
+
+h1 {
+  margin: 5px;
+}
+
+.container {
+  padding: 20px;
+}
+
+button {
+  width: 90%;
+  max-width: 350px;
+  padding: 15px;
+  margin: 8px;
+  border: none;
+  border-radius: 12px;
+  background: #3155d9;
+  color: white;
+  font-size: 18px;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  margin: 15px auto;
+  max-width: 500px;
+  border-radius: 15px;
+  box-shadow: 0 2px 8px #ccc;
+}
+
+input {
+  padding: 12px;
+  font-size: 18px;
+  width: 150px;
+  border-radius: 8px;
+  border: 1px solid #aaa;
+}
+
+.correct {
+  color: green;
+  font-weight: bold;
+}
+
+.wrong {
+  color: red;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+
+.number {
+  display: inline-block;
+  background: #eef2ff;
+  padding: 8px;
+  margin: 4px;
+  border-radius: 8px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🧠 Math Master</h1>
+<p>Learn Mathematics Easily!</p>
+</header>
+
+<!-- HOME -->
+<div id="home" class="container">
+
+<h2>Choose a Topic</h2>
+
+<button onclick="showPage('square')">🔢 Square</button>
+
+<button onclick="showPage('squarePractice')">
+📝 Square Practice
+</button>
+
+<button onclick="showPage('cube')">🧊 Cube</button>
+
+<button onclick="showPage('cubePractice')">
+📝 Cube Practice
+</button>
+
+<button onclick="showPage('triplet')">🔺 Triplet</button>
+
+<button onclick="showPage('tripletPractice')">
+📝 Triplet Practice
+</button>
+
+</div>
+
+
+<!-- SQUARE -->
+<div id="square" class="container hidden">
+
+<div class="card">
+
+<h2>🔢 Squares</h2>
+
+<p><b>Square means:</b> Number × Number</p>
+
+<div id="squareList"></div>
+
+<button onclick="showPage('home')">
+🏠 Home
+</button>
+
+</div>
+</div>
+
+
+<!-- SQUARE PRACTICE -->
+<div id="squarePractice" class="container hidden">
+
+<div class="card">
+
+<h2>📝 Square Practice</h2>
+
+<h2 id="squareQuestion"></h2>
+
+<input id="squareAnswer" type="number">
+
+<br>
+
+<button onclick="checkSquare()">Check Answer</button>
+
+<p id="squareResult"></p>
+
+<p>Score: <span id="squareScore">0</span></p>
+
+<button onclick="newSquare()">Next Question</button>
+
+<button onclick="showPage('home')">
+🏠 Home
+</button>
+
+</div>
+</div>
+
+
+<!-- CUBE -->
+<div id="cube" class="container hidden">
+
+<div class="card">
+
+<h2>🧊 Cubes</h2>
+
+<p><b>Cube means:</b> Number × Number × Number</p>
+
+<div id="cubeList"></div>
+
+<button onclick="showPage('home')">
+🏠 Home
+</button>
+
+</div>
+</div>
+
+
+<!-- CUBE PRACTICE -->
+<div id="cubePractice" class="container hidden">
+
+<div class="card">
+
+<h2>📝 Cube Practice</h2>
+
+<h2 id="cubeQuestion"></h2>
+
+<input id="cubeAnswer" type="number">
+
+<br>
+
+<button onclick="checkCube()">Check Answer</button>
+
+<p id="cubeResult"></p>
+
+<p>Score: <span id="cubeScore">0</span></p>
+
+<button onclick="newCube()">Next Question</button>
+
+<button onclick="showPage('home')">
+🏠 Home
+</button>
+
+</div>
+</div>
+
+
+<!-- TRIPLET -->
+<div id="triplet" class="container hidden">
+
+<div class="card">
+
+<h2>🔺 Pythagorean Triplets</h2>
+
+<p>
+Three numbers where:
+<br>
+<b>a² + b² = c²</b>
+</p>
+
+<div id="tripletList"></div>
+
+<button onclick="showPage('home')">
+🏠 Home
+</button>
+
+</div>
+</div>
+
+
+<!-- TRIPLET PRACTICE -->
+<div id="tripletPractice" class="container hidden">
+
+<div class="card">
+
+<h2>📝 Triplet Practice</h2>
+
+<h2 id="tripletQuestion"></h2>
+
+<input id="tripletAnswer" type="number">
+
+<br>
+
+<button onclick="checkTriplet()">Check Answer</button>
+
+<p id="tripletResult"></p>
+
+<p>Score: <span id="tripletScore">0</span></p>
+
+<button onclick="newTriplet()">Next Question</button>
+
+<button onclick="showPage('home')">
+🏠 Home
+</button>
+
+</div>
+</div>
+
+
+<script>
+
+/* ---------- PAGE CONTROL ---------- */
+
+function showPage(page) {
+
+  let pages = [
+    "home",
+    "square",
+    "squarePractice",
+    "cube",
+    "cubePractice",
+    "triplet",
+    "tripletPractice"
+  ];
+
+  pages.forEach(function(p) {
+    document.getElementById(p).classList.add("hidden");
+  });
+
+  document.getElementById(page).classList.remove("hidden");
+
+}
+
+
+/* ---------- SQUARE LEARNING ---------- */
+
+let squareHTML = "";
+
+for(let i = 1; i <= 30; i++) {
+  squareHTML +=
+    "<span class='number'>" +
+    i + "² = " + (i*i) +
+    "</span>";
+}
+
+document.getElementById("squareList").innerHTML = squareHTML;
+
+
+/* ---------- SQUARE PRACTICE ---------- */
+
+let squareNumber;
+let squareScore = 0;
+let squareAnswered = false;
+
+function newSquare() {
+
+  squareNumber = Math.floor(Math.random() * 30) + 1;
+
+  document.getElementById("squareQuestion").innerText =
+    "What is " + squareNumber + "² ?";
+
+  document.getElementById("squareAnswer").value = "";
+
+  document.getElementById("squareResult").innerText = "";
+
+  squareAnswered = false;
+}
+
+function checkSquare() {
+
+  if(squareAnswered) return;
+
+  let answer =
+    Number(document.getElementById("squareAnswer").value);
+
+  if(answer === squareNumber * squareNumber) {
+
+    document.getElementById("squareResult").innerText =
+      "✅ Correct!";
+
+    document.getElementById("squareResult").className =
+      "correct";
+
+    squareScore++;
+
+    document.getElementById("squareScore").innerText =
+      squareScore;
+
+    squareAnswered = true;
+
+  } else {
+
+    document.getElementById("squareResult").innerText =
+      "❌ Try again!";
+
+    document.getElementById("squareResult").className =
+      "wrong";
+  }
+}
+
+
+/* ---------- CUBE LEARNING ---------- */
+
+let cubeHTML = "";
+
+for(let i = 1; i <= 20; i++) {
+
+  cubeHTML +=
+    "<span class='number'>" +
+    i + "³ = " + (i*i*i) +
+    "</span>";
+}
+
+document.getElementById("cubeList").innerHTML = cubeHTML;
+
+
+/* ---------- CUBE PRACTICE ---------- */
+
+let cubeNumber;
+let cubeScore = 0;
+let cubeAnswered = false;
+
+function newCube() {
+
+  cubeNumber = Math.floor(Math.random() * 20) + 1;
+
+  document.getElementById("cubeQuestion").innerText =
+    "What is " + cubeNumber + "³ ?";
+
+  document.getElementById("cubeAnswer").value = "";
+
+  document.getElementById("cubeResult").innerText = "";
+
+  cubeAnswered = false;
+}
+
+function checkCube() {
+
+  if(cubeAnswered) return;
+
+  let answer =
+    Number(document.getElementById("cubeAnswer").value);
+
+  if(answer === cubeNumber * cubeNumber * cubeNumber) {
+
+    document.getElementById("cubeResult").innerText =
+      "✅ Correct!";
+
+    document.getElementById("cubeResult").className =
+      "correct";
+
+    cubeScore++;
+
+    document.getElementById("cubeScore").innerText =
+      cubeScore;
+
+    cubeAnswered = true;
+
+  } else {
+
+    document.getElementById("cubeResult").innerText =
+      "❌ Try again!";
+
+    document.getElementById("cubeResult").className =
+      "wrong";
+  }
+}
+
+
+/* ---------- TRIPLETS ---------- */
+
+let triplets = [
+  [3,4,5],
+  [5,12,13],
+  [6,8,10],
+  [7,24,25],
+  [8,15,17],
+  [9,12,15],
+  [9,40,41],
+  [12,16,20],
+  [20,21,29]
+];
+
+let tripletHTML = "";
+
+triplets.forEach(function(t) {
+
+  tripletHTML +=
+    "<span class='number'>" +
+    t[0] + ", " + t[1] + ", " + t[2] +
+    "</span>";
+
+});
+
+document.getElementById("tripletList").innerHTML =
+  tripletHTML;
+
+
+/* ---------- TRIPLET PRACTICE ---------- */
+
+let currentTriplet;
+let tripletScore = 0;
+let tripletAnswered = false;
+
+function newTriplet() {
+
+  currentTriplet =
+    triplets[Math.floor(Math.random() * triplets.length)];
+
+  document.getElementById("tripletQuestion").innerText =
+    currentTriplet[0] + ", " +
+    currentTriplet[1] + ", ?";
+
+  document.getElementById("tripletAnswer").value = "";
+
+  document.getElementById("tripletResult").innerText = "";
+
+  tripletAnswered = false;
+}
+
+function checkTriplet() {
+
+  if(tripletAnswered) return;
+
+  let answer =
+    Number(document.getElementById("tripletAnswer").value);
+
+  if(answer === currentTriplet[2]) {
+
+    document.getElementById("tripletResult").innerText =
+      "✅ Correct!";
+
+    document.getElementById("tripletResult").className =
+      "correct";
+
+    tripletScore++;
+
+    document.getElementById("tripletScore").innerText =
+      tripletScore;
+
+    tripletAnswered = true;
+
+  } else {
+
+    document.getElementById("tripletResult").innerText =
+      "❌ Try again!";
+
+    document.getElementById("tripletResult").className =
+      "wrong";
+  }
+}
+
+
+/* ---------- START QUESTIONS ---------- */
+
+newSquare();
+newCube();
+newTriplet();
+
+</script>
+
+</body>
+  </html>
